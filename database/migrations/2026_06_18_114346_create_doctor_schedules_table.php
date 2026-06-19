@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('doctor_schedules', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('doctor_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('doctor_id')->constrained()->restrictOnDelete();
             $table->date('date');
             $table->time('start_time');
             $table->time('end_time');
