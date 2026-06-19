@@ -10,9 +10,14 @@ use App\Http\Controllers\MemberController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', fn () => redirect()->route('member.welcome'));
+Route::get('/welcome', [ArticleController::class, 'welcome'])->name('member.welcome');
+
+Route::prefix('artikel')->name('member.articles.')->group(function () {
+    Route::get('/', [ArticleController::class, 'publicIndex'])->name('index');
+    Route::get('/{article:slug}', [ArticleController::class, 'publicShow'])->name('show');
 });
+
 
 Route::resources([
     'users' => UserController::class,

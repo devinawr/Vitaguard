@@ -22,16 +22,18 @@ class Article extends Model
         'published_at',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'views' => 'integer',
-            'published_at' => 'datetime',
-        ];
-    }
+    protected $casts = [
+        'views' => 'integer',
+        'published_at' => 'datetime',
+    ];
 
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'author_id');
+    }
+
+    public function scopePublished($query)
+    {
+        return $query->where('status', 'published');
     }
 }
