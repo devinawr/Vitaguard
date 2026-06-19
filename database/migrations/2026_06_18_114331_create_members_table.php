@@ -15,7 +15,7 @@ return new class extends Migration
             $table->enum('gender', ['Woman', 'Man'])->nullable();
             $table->string('phone', 15)->nullable();
             $table->text('address')->nullable();
-            $table->string('blood_type', 3)->nullable();
+            $table->enum('blood_type', ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'])->nullable();
             $table->integer('weight')->nullable();
             $table->integer('height')->nullable();
             $table->timestamps();
