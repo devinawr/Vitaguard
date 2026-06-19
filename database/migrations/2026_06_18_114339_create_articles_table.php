@@ -16,7 +16,7 @@ return new class extends Migration
             $table->longText('content');
             $table->string('thumbnail')->nullable();
             $table->integer('views')->default(0);
-            $table->enum('status', ['draft', 'published', 'Archive'])->default('draft');
+            $table->enum('status', ['draft', 'published', 'archive'])->default('draft');
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
             $table->softDeletes();

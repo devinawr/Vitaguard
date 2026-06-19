@@ -9,7 +9,43 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class ArticleController extends Controller
-{
+{// ============================================================
+    // Member-facing (Blade view, hanya artikel published)
+    // ============================================================
+
+    public function welcome()
+    {
+        $latestArticles = Article::published()
+            ->latest('published_at')
+            ->take(3)
+            ->get();
+
+        return view('member.welcome', compact('latestArticles'));
+    }
+
+    public function publicIndex(Request $request)
+    {
+        $articles = Article::published()
+            ->with('author:id,name')
+            ->when($request->filled('search'), function ($query) use ($request) {
+                $query->where('title', 'like', "%{$request->search}%");
+            })
+            ->latest('published_at')
+            ->paginate(9);
+
+        return view('member.articles.index', compact('articles'));
+    }
+
+    public function publicShow(Article $article)
+    {
+        abort_unless($article->status === 'published', 404);
+
+        $article->increment('views');
+
+        return view('member.articles.show', compact('article'));
+    }
+
+
     public function index(Request $request): JsonResponse
     {
         $articles = Article::query()

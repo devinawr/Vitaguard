@@ -17,9 +17,15 @@ use App\Http\Controllers\Admin\AdminBookingController;
 use App\Http\Controllers\Admin\AdminConsultationController;
 use App\Http\Controllers\Admin\AdminUserController;
 
-Route::get('/', function () {
-    return view('auth.login');
+// Route::get('/', fn () => redirect()->route('member.welcome'));
+Route::get('/', function () {return view('auth.login');});
+Route::get('/welcome', [ArticleController::class, 'welcome'])->name('member.welcome');
+
+Route::prefix('artikel')->name('member.articles.')->group(function () {
+    Route::get('/', [ArticleController::class, 'publicIndex'])->name('index');
+    Route::get('/{article:slug}', [ArticleController::class, 'publicShow'])->name('show');
 });
+
 
 Route::resources([
     'users' => UserController::class,
