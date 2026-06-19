@@ -13,16 +13,13 @@ class RoleMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, ...$roles): Response
+
+    public function handle(Request $request, Closure $next, string $role): Response
     {
-        if (! $request->user()) {
-            return redirect('login');
+        if (auth()->check() && auth()->user()->role === $role) {
+            return $next($request);
         }
 
-        if (! in_array($request->user()->role, $roles)) {
-            abort(403, '403 Forbidden Access');
-        }
-
-        return $next($request);
+        abort(403, 'Unauthorized action.');
     }
 }

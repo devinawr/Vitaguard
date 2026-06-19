@@ -37,9 +37,9 @@ Route::resources([
     'consultations' => ConsultationController::class,
     'consultation-messages' => ConsultationMessageController::class,
 ]);
+
 Auth::routes();
 
-// Admin Routes
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     
@@ -69,5 +69,6 @@ Route::middleware(['auth', 'role:doctor'])->prefix('doctor')->group(function () 
 Route::middleware(['auth', 'role:member'])->prefix('member')->group(function () {
     Route::get('/dashboard', [MemberController::class, 'index'])->name('member.dashboard');
 });
+
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

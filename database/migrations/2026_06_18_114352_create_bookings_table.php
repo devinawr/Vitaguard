@@ -14,7 +14,7 @@ return new class extends Migration
             $table->foreignId('member_id')->constrained('members');
             $table->foreignId('doctor_id')->constrained('doctors');
             $table->foreignId('schedule_id')->nullable()
-                ->constrained('doctor_schedules')->nullOnDelete();
+                ->constrained('doctor_schedules')->restrictOnDelete();
             $table->dateTime('consultation_date')->nullable();
             $table->text('complaint')->nullable();
             $table->text('notes')->nullable();

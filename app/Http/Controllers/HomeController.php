@@ -24,7 +24,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // Cek role user saat ini
         $role = Auth::user()->role;
 
         if ($role === 'admin') {
@@ -33,8 +32,10 @@ class HomeController extends Controller
         } elseif ($role === 'doctor') {
             return redirect()->route('doctor.dashboard');
             
-        } else {
+        } elseif ($role === 'member')  {
             return redirect()->route('member.dashboard');
+        } else {
+            abort(403, 'Unauthorized action.');
         }
     }
 }
