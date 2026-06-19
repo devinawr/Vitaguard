@@ -270,7 +270,7 @@
             <li class="nav-item">
                 <a href="{{ route('admin.members.index') }}" class="nav-link @if(request()->routeIs('admin.members*')) active @endif">
                     <i class="bi bi-people-fill"></i>
-                    <span>Pasien</span>
+                    <span>Member</span>
                 </a>
             </li>
 
@@ -284,16 +284,26 @@
             <li class="nav-item">
                 <a href="{{ route('admin.bookings.index') }}" class="nav-link @if(request()->routeIs('admin.bookings*')) active @endif">
                     <i class="bi bi-receipt"></i>
-                    <span>Transaksi</span>
+                    <span>Booking Konsultasi</span>
                 </a>
             </li>
 
             <li class="nav-item">
                 <a href="{{ route('admin.articles.index') }}" class="nav-link @if(request()->routeIs('admin.articles*')) active @endif">
                     <i class="bi bi-tag-fill"></i>
-                    <span>Kategori</span>
+                    <span>Artikel Kesehatan</span>
                 </a>
             </li>
+
+            <li class="nav-item">
+              <a href="{{ route('admin.consultations.index') }}"
+                class="nav-link @if(request()->routeIs('admin.consultations*')) active @endif">
+
+                  <i class="bi bi-chat-dots-fill"></i>
+                  <span>Konsultasi</span>
+
+              </a>
+          </li>
 
             <div class="nav-section">Pengaturan</div>
 
