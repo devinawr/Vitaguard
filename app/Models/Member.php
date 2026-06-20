@@ -21,6 +21,8 @@ class Member extends Model
         'blood_type',
         'weight',
         'height',
+        'allergies',
+        'medical_history',
     ];
 
     protected function casts(): array

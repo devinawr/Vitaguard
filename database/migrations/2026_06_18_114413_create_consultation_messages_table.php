@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('consultation_messages', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('consultation_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('consultation_id')->constrained()->restrictOnDelete();
             $table->foreignId('sender_id')->constrained('users');
             $table->text('message');
             $table->timestamp('read_at')->nullable();

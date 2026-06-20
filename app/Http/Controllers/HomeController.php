@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -23,6 +24,18 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $role = Auth::user()->role;
+
+        if ($role === 'admin') {
+            return redirect()->route('admin.dashboard');
+            
+        } elseif ($role === 'doctor') {
+            return redirect()->route('doctor.dashboard');
+            
+        } elseif ($role === 'member')  {
+            return redirect()->route('member.dashboard');
+        } else {
+            abort(403, 'Unauthorized action.');
+        }
     }
 }

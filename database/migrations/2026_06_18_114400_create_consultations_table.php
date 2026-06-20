@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('consultations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('booking_id')->unique()->constrained()->cascadeOnDelete();
+            $table->foreignId('booking_id')->unique()->constrained()->restrictOnDelete();
             $table->timestamp('started_at')->nullable();
             $table->timestamp('ended_at')->nullable();
             $table->enum('status', ['active', 'closed'])->default('active');
