@@ -8,17 +8,6 @@ use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
-
     use AuthenticatesUsers;
 
     /**
@@ -26,7 +15,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -39,18 +28,25 @@ class LoginController extends Controller
         $this->middleware('auth')->only('logout');
     }
 
+    /**
+     * Redirect user after successful login based on role.
+     */
     protected function authenticated(Request $request, $user)
     {
-        // Cek tipe role dari user yang baru saja login
-        if ($user->role == 'admin') {
+        if ($user->role === 'admin') {
             return redirect()->route('admin.dashboard');
-            
-        } elseif ($user->role == 'doctor') {
-            return redirect()->route('doctor.dashboard'); 
-            
-        } else {
-            return redirect()->route('member.dashboard'); 
         }
-    }
 
+        if ($user->role === 'doctor') {
+            return redirect()->route('doctor.dashboard');
+        }
+
+        if ($user->role === 'member') {
+            return redirect()->route('member.welcome');
+        }
+
+        auth()->logout();
+
+        return redirect()->route('login')->with('error', 'Role tidak dikenali.');
+    }
 }
