@@ -29,13 +29,15 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link vg-nav-link" href="#">
+                        <a class="nav-link vg-nav-link {{ request()->routeIs('member.doctors.*') ? 'active' : '' }}"
+                           href="{{ route('member.doctors.index') }}">
                             Cari Dokter
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link vg-nav-link" href="#">
-                            Konsultasi
+                        <a class="nav-link vg-nav-link {{ request()->routeIs('member.bookings.*') ? 'active' : '' }}"
+                           href="{{ route('member.bookings.index') }}">
+                            Booking Saya
                         </a>
                     </li>
                 </ul>

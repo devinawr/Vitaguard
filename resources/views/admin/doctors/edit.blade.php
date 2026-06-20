@@ -42,15 +42,15 @@
                             <label for="gender" class="form-label">Jenis Kelamin</label>
                             <select name="gender" id="gender" class="form-select @error('gender') is-invalid @enderror">
                                 <option value="">-- Pilih --</option>
-                                <option value="Male" {{ old('gender', $doctor->gender) == 'Male' ? 'selected' : '' }}>Laki-laki</option>
-                                <option value="Female" {{ old('gender', $doctor->gender) == 'Female' ? 'selected' : '' }}>Perempuan</option>
+                                <option value="Man" {{ old('gender', $doctor->gender) == 'Man' ? 'selected' : '' }}>Laki-laki</option>
+                                <option value="Woman" {{ old('gender', $doctor->gender) == 'Woman' ? 'selected' : '' }}>Perempuan</option>
                             </select>
                             @error('gender')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="date_of_birth" class="form-label">Tanggal Lahir</label>
-                            <input type="date" class="form-control @error('date_of_birth') is-invalid @enderror" 
-                                   id="date_of_birth" name="date_of_birth" value="{{ old('date_of_birth', $doctor->date_of_birth) }}">
+                            <input type="date" class="form-control @error('date_of_birth') is-invalid @enderror"
+                                   id="date_of_birth" name="date_of_birth" value="{{ old('date_of_birth', $doctor->date_of_birth ? $doctor->date_of_birth->format('Y-m-d') : '') }}">
                             @error('date_of_birth')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
                     </div>
@@ -64,13 +64,15 @@
 
                     <div class="mb-3">
                         <label for="photo" class="form-label">Foto Profil</label>
-                        @if($doctor->photo)
-                            <div class="mb-2">
-                                <img src="{{ Storage::url($doctor->photo) }}" alt="Foto Dokter" class="img-thumbnail" style="max-width: 200px;">
-                            </div>
-                        @endif
-                        <input type="file" class="form-control @error('photo') is-invalid @enderror" id="photo" 
-                               name="photo" accept="image/*">
+                        <div class="mb-2" id="photo-preview-wrapper">
+                            @if($doctor->photo)
+                                <img src="{{ Storage::url($doctor->photo) }}" alt="Foto Dokter" id="photo-preview" class="img-thumbnail" style="max-width: 200px; display:block;">
+                            @else
+                                <img id="photo-preview" class="img-thumbnail" style="max-width: 200px; display:none;" alt="Preview">
+                            @endif
+                        </div>
+                        <input type="file" class="form-control @error('photo') is-invalid @enderror" id="photo"
+                               name="photo" accept="image/*" onchange="previewPhoto(this)">
                         <small class="text-muted">Format: JPEG, PNG, JPG, GIF (Max: 2MB)</small>
                         @error('photo')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
@@ -131,7 +133,7 @@
                 </div>
 
                 <div class="card-footer">
-                    <a href="{{ route('admin.doctors.index') }}" class="btn btn-secondary">
+                    <a href="{{ route('admin.doctors.show', $doctor) }}" class="btn btn-secondary">
                         <i class="bi bi-arrow-left"></i> Kembali
                     </a>
                     <button type="submit" class="btn btn-primary float-end">
@@ -142,4 +144,20 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script>
+function previewPhoto(input) {
+    const preview = document.getElementById('photo-preview');
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = e => {
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
+@endpush
 @endsection

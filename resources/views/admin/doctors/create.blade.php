@@ -41,8 +41,8 @@
                             <label for="gender" class="form-label">Jenis Kelamin</label>
                             <select name="gender" id="gender" class="form-select @error('gender') is-invalid @enderror">
                                 <option value="">-- Pilih --</option>
-                                <option value="Male" {{ old('gender') == 'Male' ? 'selected' : '' }}>Laki-laki</option>
-                                <option value="Female" {{ old('gender') == 'Female' ? 'selected' : '' }}>Perempuan</option>
+                                <option value="Man" {{ old('gender') == 'Man' ? 'selected' : '' }}>Laki-laki</option>
+                                <option value="Woman" {{ old('gender') == 'Woman' ? 'selected' : '' }}>Perempuan</option>
                             </select>
                             @error('gender')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>

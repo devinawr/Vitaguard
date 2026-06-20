@@ -26,14 +26,11 @@ class Doctor extends Model
         'gender',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'experience_years' => 'integer',
-            'rating' => 'decimal:2',
-            'date_of_birth' => 'date',
-        ];
-    }
+    protected $casts = [
+        'experience_years' => 'integer',
+        'rating' => 'decimal:2',
+        'date_of_birth' => 'date',
+    ];
 
     public function user(): BelongsTo
     {

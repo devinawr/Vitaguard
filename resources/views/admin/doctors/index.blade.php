@@ -37,9 +37,9 @@
             </div>
             <div class="card-body">
                 <form method="GET" class="mb-3">
-                    <div class="row">
+                    <div class="row g-2">
                         <div class="col-md-4">
-                            <input type="text" name="search" class="form-control" placeholder="Cari nama/email dokter" value="{{ request('search') }}">
+                            <input type="text" name="search" class="form-control" placeholder="Cari nama/email/spesialis" value="{{ request('search') }}">
                         </div>
                         <div class="col-md-3">
                             <select name="specialty" class="form-select">
@@ -49,17 +49,22 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <select name="status" class="form-select">
                                 <option value="">-- Semua Status --</option>
                                 <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Aktif</option>
                                 <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Tidak Aktif</option>
                             </select>
                         </div>
-                        <div class="col-md-2">
-                            <button type="submit" class="btn btn-info btn-block">
+                        <div class="col-md-3 d-flex gap-2">
+                            <button type="submit" class="btn btn-info">
                                 <i class="bi bi-search"></i> Cari
                             </button>
+                            @if(request('search') || request('specialty') || request('status'))
+                                <a href="{{ route('admin.doctors.index') }}" class="btn btn-outline-secondary">
+                                    <i class="bi bi-x-circle"></i> Reset
+                                </a>
+                            @endif
                         </div>
                     </div>
                 </form>

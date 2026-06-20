@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\Doctor;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -11,10 +12,6 @@ use Illuminate\Validation\Rule;
 
 class ArticleController extends Controller
 {
-    // ============================================================
-    // Member-facing (Blade view, hanya artikel published dan sudah waktunya tayang)
-    // ============================================================
-
     public function welcome()
     {
         $latestArticles = Article::query()
@@ -25,7 +22,15 @@ class ArticleController extends Controller
             ->take(3)
             ->get();
 
-        return view('member.welcome', compact('latestArticles'));
+        $featuredDoctors = Doctor::with('user')
+            ->where('status', 'active')
+            ->orderByDesc('rating')
+            ->take(3)
+            ->get();
+
+        $totalDoctors = Doctor::where('status', 'active')->count();
+
+        return view('member.welcome', compact('latestArticles', 'featuredDoctors', 'totalDoctors'));
     }
 
     public function publicIndex(Request $request)
@@ -58,9 +63,7 @@ class ArticleController extends Controller
         return view('member.articles.show', compact('article'));
     }
 
-    // ============================================================
-    // JSON / CRUD
-    // ============================================================
+
 
     public function index(Request $request): JsonResponse
     {

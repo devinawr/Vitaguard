@@ -75,6 +75,15 @@
                                         <a href="{{ route('admin.bookings.show', $booking) }}" class="btn btn-sm btn-info" title="Detail">
                                             <i class="bi bi-eye"></i>
                                         </a>
+                                        @if($booking->status === 'pending')
+                                            <form action="{{ route('admin.bookings.confirm', $booking) }}" method="POST" class="d-inline">
+                                                @csrf
+                                                <button type="submit" class="btn btn-sm btn-success" title="Konfirmasi"
+                                                        onclick="return confirm('Konfirmasi booking ini?')">
+                                                    <i class="bi bi-check-lg"></i>
+                                                </button>
+                                            </form>
+                                        @endif
                                     </td>
                                 </tr>
                             @empty

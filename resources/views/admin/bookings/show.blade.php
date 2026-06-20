@@ -26,6 +26,31 @@
             </div>
         @endif
 
+        @if(session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+
+        @if($booking->status === 'pending')
+            <div class="card mb-3" style="border-left: 4px solid #198754;">
+                <div class="card-body d-flex align-items-center justify-content-between py-3">
+                    <div>
+                        <strong class="text-success"><i class="bi bi-clock-history me-1"></i> Booking ini menunggu konfirmasi</strong>
+                        <p class="mb-0 text-muted small">Konfirmasi agar dokter dapat melihat booking ini di panel mereka.</p>
+                    </div>
+                    <form action="{{ route('admin.bookings.confirm', $booking) }}" method="POST" class="ms-3">
+                        @csrf
+                        <button type="submit" class="btn btn-success"
+                                onclick="return confirm('Konfirmasi booking ini?')">
+                            <i class="bi bi-check-circle me-1"></i> Konfirmasi Booking
+                        </button>
+                    </form>
+                </div>
+            </div>
+        @endif
+
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Informasi Booking</h3>
@@ -71,8 +96,8 @@
                 <h5 class="mb-3 mt-4">Jadwal Konsultasi</h5>
                 <table class="table table-sm">
                     <tr>
-                        <td style="width: 30%">Hari</td>
-                        <td>{{ $booking->schedule->day_of_week ?? '-' }}</td>
+                        <td style="width: 30%">Tanggal</td>
+                        <td>{{ $booking->schedule ? $booking->schedule->date->format('d/m/Y') : '-' }}</td>
                     </tr>
                     <tr>
                         <td>Jam Mulai</td>

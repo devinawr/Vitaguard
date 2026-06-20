@@ -250,7 +250,7 @@
 
     <!-- Sidebar -->
     <aside class="main-sidebar">
-        <a href="{{ route('admin.dashboard') }}" class="brand-link">
+        <a href="{{ auth()->user()->role === 'doctor' ? route('doctor.dashboard') : route('admin.dashboard') }}" class="brand-link">
             <div class="brand-icon">
                 <i class="bi bi-heart-fill"></i>
             </div>
@@ -258,61 +258,76 @@
         </a>
 
         <nav class="sidebar-nav">
-            <li class="nav-item">
-                <a href="{{ route('admin.dashboard') }}" class="nav-link @if(request()->routeIs('admin.dashboard')) active @endif">
-                    <i class="bi bi-house-door-fill"></i>
-                    <span>Dashboard</span>
-                </a>
-            </li>
+            @if(auth()->user()->role === 'doctor')
+                <li class="nav-item">
+                    <a href="{{ route('doctor.dashboard') }}" class="nav-link @if(request()->routeIs('doctor.dashboard')) active @endif">
+                        <i class="bi bi-house-door-fill"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
 
-            <div class="nav-section">Manajemen Data</div>
-            
-            <li class="nav-item">
-                <a href="{{ route('admin.members.index') }}" class="nav-link @if(request()->routeIs('admin.members*')) active @endif">
-                    <i class="bi bi-people-fill"></i>
-                    <span>Member</span>
-                </a>
-            </li>
+                <div class="nav-section">Booking Pasien</div>
 
-            <li class="nav-item">
-                <a href="{{ route('admin.doctors.index') }}" class="nav-link @if(request()->routeIs('admin.doctors*')) active @endif">
-                    <i class="bi bi-person-badge"></i>
-                    <span>Dokter</span>
-                </a>
-            </li>
+                <li class="nav-item">
+                    <a href="{{ route('doctor.bookings.index') }}" class="nav-link @if(request()->routeIs('doctor.bookings.*')) active @endif">
+                        <i class="bi bi-calendar-check"></i>
+                        <span>Booking Masuk</span>
+                    </a>
+                </li>
+            @else
+                <li class="nav-item">
+                    <a href="{{ route('admin.dashboard') }}" class="nav-link @if(request()->routeIs('admin.dashboard')) active @endif">
+                        <i class="bi bi-house-door-fill"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
 
-            <li class="nav-item">
-                <a href="{{ route('admin.bookings.index') }}" class="nav-link @if(request()->routeIs('admin.bookings*')) active @endif">
-                    <i class="bi bi-receipt"></i>
-                    <span>Booking Konsultasi</span>
-                </a>
-            </li>
+                <div class="nav-section">Manajemen Data</div>
 
-            <li class="nav-item">
-                <a href="{{ route('admin.articles.index') }}" class="nav-link @if(request()->routeIs('admin.articles*')) active @endif">
-                    <i class="bi bi-tag-fill"></i>
-                    <span>Artikel Kesehatan</span>
-                </a>
-            </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.members.index') }}" class="nav-link @if(request()->routeIs('admin.members*')) active @endif">
+                        <i class="bi bi-people-fill"></i>
+                        <span>Member</span>
+                    </a>
+                </li>
 
-            <li class="nav-item">
-              <a href="{{ route('admin.consultations.index') }}"
-                class="nav-link @if(request()->routeIs('admin.consultations*')) active @endif">
+                <li class="nav-item">
+                    <a href="{{ route('admin.doctors.index') }}" class="nav-link @if(request()->routeIs('admin.doctors*')) active @endif">
+                        <i class="bi bi-person-badge"></i>
+                        <span>Dokter</span>
+                    </a>
+                </li>
 
-                  <i class="bi bi-chat-dots-fill"></i>
-                  <span>Konsultasi</span>
+                <li class="nav-item">
+                    <a href="{{ route('admin.bookings.index') }}" class="nav-link @if(request()->routeIs('admin.bookings*')) active @endif">
+                        <i class="bi bi-receipt"></i>
+                        <span>Booking Konsultasi</span>
+                    </a>
+                </li>
 
-              </a>
-          </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.articles.index') }}" class="nav-link @if(request()->routeIs('admin.articles*')) active @endif">
+                        <i class="bi bi-tag-fill"></i>
+                        <span>Artikel Kesehatan</span>
+                    </a>
+                </li>
 
-            <div class="nav-section">Pengaturan</div>
+                <li class="nav-item">
+                    <a href="{{ route('admin.consultations.index') }}" class="nav-link @if(request()->routeIs('admin.consultations*')) active @endif">
+                        <i class="bi bi-chat-dots-fill"></i>
+                        <span>Konsultasi</span>
+                    </a>
+                </li>
 
-            <li class="nav-item">
-                <a href="{{ route('admin.users.index') }}" class="nav-link @if(request()->routeIs('admin.users*')) active @endif">
-                    <i class="bi bi-gear-fill"></i>
-                    <span>Pengguna</span>
-                </a>
-            </li>
+                <div class="nav-section">Pengaturan</div>
+
+                <li class="nav-item">
+                    <a href="{{ route('admin.users.index') }}" class="nav-link @if(request()->routeIs('admin.users*')) active @endif">
+                        <i class="bi bi-gear-fill"></i>
+                        <span>Pengguna</span>
+                    </a>
+                </li>
+            @endif
         </nav>
     </aside>
 
@@ -321,7 +336,11 @@
         <nav class="main-header">
             <div class="d-flex justify-content-between align-items-center" style="width: 100%;">
                 <div style="font-size: 0.9rem; color: #7f8c8d;">
-                    <a href="{{ route('admin.dashboard') }}" style="color: #3498db; text-decoration: none;">Admin</a>
+                    @if(auth()->user()->role === 'doctor')
+                        <a href="{{ route('doctor.dashboard') }}" style="color: #3498db; text-decoration: none;">Dokter</a>
+                    @else
+                        <a href="{{ route('admin.dashboard') }}" style="color: #3498db; text-decoration: none;">Admin</a>
+                    @endif
                     <span style="margin: 0 0.5rem;">/</span>
                     <span>@yield('page-title', 'Dashboard')</span>
                 </div>
@@ -358,5 +377,7 @@
 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
     @csrf
 </form>
+
+@stack('scripts')
 </body>
 </html>

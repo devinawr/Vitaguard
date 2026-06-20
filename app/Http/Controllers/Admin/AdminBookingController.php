@@ -40,6 +40,22 @@ class AdminBookingController extends Controller
     }
 
     /**
+     * Quickly confirm a pending booking.
+     */
+    public function confirm(Booking $booking)
+    {
+        if ($booking->status !== 'pending') {
+            return redirect()->route('admin.bookings.show', $booking)
+                ->with('error', 'Booking ini tidak dalam status pending.');
+        }
+
+        $booking->update(['status' => 'confirmed']);
+
+        return redirect()->route('admin.bookings.show', $booking)
+            ->with('success', 'Booking berhasil dikonfirmasi.');
+    }
+
+    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, Booking $booking)

@@ -18,16 +18,18 @@ class AdminDoctorController extends Controller
     {
         $doctors = Doctor::with('user')
             ->when($request->filled('search'), function ($query) {
-                $query->whereHas('user', function ($q) {
-                    $q->where('name', 'like', '%' . request('search') . '%')
-                      ->orWhere('email', 'like', '%' . request('search') . '%');
-                })->orWhere('specialty', 'like', '%' . request('search') . '%');
+                $query->where(function ($q) {
+                    $q->whereHas('user', function ($subQ) {
+                        $subQ->where('name', 'like', '%' . request('search') . '%')
+                             ->orWhere('email', 'like', '%' . request('search') . '%');
+                    })->orWhere('specialty', 'like', '%' . request('search') . '%');
+                });
             })
             ->when($request->filled('specialty'), function ($query) {
-                $query->where('specialty', $request->specialty);
+                $query->where('specialty', request('specialty'));
             })
             ->when($request->filled('status'), function ($query) {
-                $query->where('status', $request->status);
+                $query->where('status', request('status'));
             })
             ->latest()
             ->paginate(10);
@@ -62,7 +64,7 @@ class AdminDoctorController extends Controller
             'photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
             'status' => ['nullable', 'in:active,inactive'],
             'date_of_birth' => ['nullable', 'date', 'before:today'],
-            'gender' => ['nullable', 'in:Male,Female'],
+            'gender' => ['nullable', 'in:Man,Woman'],
         ]);
 
         // Handle photo upload
@@ -102,7 +104,7 @@ class AdminDoctorController extends Controller
      */
     public function show(Doctor $doctor)
     {
-        $doctor->load(['user', 'schedules', 'bookings']);
+        $doctor->load(['user', 'schedules', 'bookings.member.user']);
         return view('admin.doctors.show', compact('doctor'));
     }
 
@@ -130,7 +132,7 @@ class AdminDoctorController extends Controller
             'photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
             'status' => ['nullable', 'in:active,inactive'],
             'date_of_birth' => ['nullable', 'date', 'before:today'],
-            'gender' => ['nullable', 'in:Male,Female'],
+            'gender' => ['nullable', 'in:Man,Woman'],
         ]);
 
         // Update user data
