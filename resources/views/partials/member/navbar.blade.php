@@ -65,11 +65,6 @@
                                         <i class="bi bi-person me-2"></i> Profil
                                     </a>
                                 </li>
-                                <li>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="bi bi-heart me-2"></i> Favorit
-                                    </a>
-                                </li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <form method="POST" action="{{ route('logout') }}">

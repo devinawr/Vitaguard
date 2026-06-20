@@ -269,7 +269,7 @@
                 <div class="nav-section">Booking Pasien</div>
 
                 <li class="nav-item">
-                    <a href="{{ route('doctor.profile') }}" class="nav-link @if(request()->routeIs('doctor.bookings.*')) active @endif">
+                    <a href="{{ route('doctor.bookings.index') }}" class="nav-link @if(request()->routeIs('doctor.bookings.*')) active @endif">
                         <i class="bi bi-calendar-check"></i>
                         <span>Booking Masuk</span>
                     </a>
