@@ -19,12 +19,9 @@ class DoctorSchedule extends Model
         'status',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'date' => 'date',
-        ];
-    }
+    protected $casts = [
+        'date' => 'date',
+    ];
 
     public function doctor(): BelongsTo
     {

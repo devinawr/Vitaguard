@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\Doctor;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -25,7 +26,15 @@ class ArticleController extends Controller
             ->take(3)
             ->get();
 
-        return view('member.welcome', compact('latestArticles'));
+        $featuredDoctors = Doctor::with('user')
+            ->where('status', 'active')
+            ->orderByDesc('rating')
+            ->take(3)
+            ->get();
+
+        $totalDoctors = Doctor::where('status', 'active')->count();
+
+        return view('member.welcome', compact('latestArticles', 'featuredDoctors', 'totalDoctors'));
     }
 
     public function publicIndex(Request $request)

@@ -22,12 +22,9 @@ class Booking extends Model
         'status',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'consultation_date' => 'datetime',
-        ];
-    }
+    protected $casts = [
+        'consultation_date' => 'datetime',
+    ];
 
     public function member(): BelongsTo
     {
