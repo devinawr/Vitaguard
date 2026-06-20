@@ -12,7 +12,6 @@
             linear-gradient(180deg, #fff9fb 0%, #ffffff 45%, #fff8fb 100%);
     }
 
-    /* ── Hero Slider ── */
     .vg-hero-area { padding-top: 24px; padding-bottom: 10px; }
     .vg-swiper-shell { max-width: 1220px; margin: 0 auto; padding: 0 12px; }
 
@@ -64,7 +63,6 @@
         transform: translateY(-2px); box-shadow: 0 14px 30px rgba(185,63,108,0.24);
     }
 
-    /* ── Stats Strip ── */
     .vg-stats-strip {
         background: #fff;
         border-radius: 24px;
@@ -75,11 +73,9 @@
     .vg-stat-num { font-size: 2rem; font-weight: 800; color: #d9608c; line-height: 1; }
     .vg-stat-label { font-size: 0.82rem; color: #9e8a95; font-weight: 500; margin-top: 4px; }
 
-    /* ── Section shared ── */
     .vg-section-title { font-size: 1.9rem; font-weight: 800; color: #2d2230; }
     .vg-section-text { color: #7a6d76; }
 
-    /* ── Doctor cards ── */
     .vg-doc-card {
         border: none; border-radius: 24px; background: #fff;
         box-shadow: 0 8px 28px rgba(219,120,158,0.09);
@@ -101,7 +97,6 @@
         background: #fdeef1; color: #d9608c; font-size: 0.78rem; font-weight: 600;
     }
 
-    /* ── How it works ── */
     .vg-step-card {
         border: none; border-radius: 20px; background: #fff;
         box-shadow: 0 6px 22px rgba(219,120,158,0.08); padding: 1.75rem;
@@ -121,7 +116,6 @@
         margin: 0.75rem auto 0;
     }
 
-    /* ── CTA Banner ── */
     .vg-cta-banner {
         border-radius: 28px; overflow: hidden;
         background: linear-gradient(135deg, #ef8aa0 0%, #d9608c 55%, #c04d78 100%);
@@ -136,7 +130,6 @@
         top: -80px; right: -60px;
     }
 
-    /* ── Articles ── */
     .vg-article-card {
         border: none; border-radius: 24px; overflow: hidden; background: #fff;
         box-shadow: 0 10px 28px rgba(231,126,163,0.09); transition: all 0.25s ease;
@@ -147,7 +140,6 @@
     .vg-article-title { font-size: 1rem; font-weight: 700; color: #2d2230; margin-bottom: 8px; min-height: 48px; }
     .vg-article-text { color: #7a6d76; font-size: 0.9rem; line-height: 1.7; }
 
-    /* ── Swiper controls ── */
     .swiper-pagination { bottom: 18px !important; }
     .swiper-pagination-bullet { width: 10px; height: 10px; background: rgba(255,255,255,0.72); opacity: 1; transition: all 0.25s; }
     .swiper-pagination-bullet-active { width: 28px; border-radius: 999px; background: #fff; }
@@ -178,13 +170,11 @@
 @section('content')
 <div class="vg-home">
 
-    {{-- ── Hero Slider ── --}}
     <section class="vg-hero-area">
         <div class="vg-swiper-shell">
             <div class="swiper homeSwiper vg-swiper">
                 <div class="swiper-wrapper">
 
-                    {{-- Slide 1: Cari Dokter --}}
                     <div class="swiper-slide vg-slide"
                          style="background-image: url('https://images.unsplash.com/photo-1559757148-5c350d0d3c56?auto=format&fit=crop&w=1600&q=80');">
                         <div class="container">
@@ -199,7 +189,6 @@
                         </div>
                     </div>
 
-                    {{-- Slide 2: Booking --}}
                     <div class="swiper-slide vg-slide"
                          style="background-image: url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1600&q=80'); background-position: center 25%;">
                         <div class="container">
@@ -214,7 +203,6 @@
                         </div>
                     </div>
 
-                    {{-- Slide 3: Artikel --}}
                     <div class="swiper-slide vg-slide"
                          style="background-image: url('https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=1600&q=80'); background-position: center 30%;">
                         <div class="container">
@@ -237,7 +225,6 @@
         </div>
     </section>
 
-    {{-- ── Stats Strip ── --}}
     <section class="py-4">
         <div class="container" style="max-width:1000px;">
             <div class="vg-stats-strip">
@@ -259,7 +246,6 @@
         </div>
     </section>
 
-    {{-- ── How It Works ── --}}
     <section class="py-5">
         <div class="container">
             <div class="text-center mb-4">
@@ -295,7 +281,6 @@
         </div>
     </section>
 
-    {{-- ── Featured Doctors ── --}}
     @if(isset($featuredDoctors) && $featuredDoctors->count())
     <section class="py-5" style="background:#fff8fb;">
         <div class="container">
@@ -356,7 +341,6 @@
     </section>
     @endif
 
-    {{-- ── CTA Banner ── --}}
     <section class="py-5">
         <div class="container">
             <div class="vg-cta-banner text-white text-center">
@@ -378,7 +362,6 @@
         </div>
     </section>
 
-    {{-- ── Artikel Terbaru ── --}}
     @if(isset($latestArticles) && $latestArticles->count())
         <section class="py-5" id="artikel-terbaru">
             <div class="container">

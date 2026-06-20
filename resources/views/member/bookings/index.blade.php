@@ -4,7 +4,6 @@
 
 @push('styles')
 <style>
-    /* ── Hero ── */
     .page-hero {
         padding-top: 3.5rem;
         padding-bottom: 2.5rem;
@@ -32,7 +31,6 @@
         color: #7f6a74; font-size: 1rem;
     }
 
-    /* ── Booking Card ── */
     .booking-card {
         background: #fff;
         border: none;
@@ -73,7 +71,6 @@
 
 @section('content')
 
-{{-- ── Hero ── --}}
 <section class="page-hero">
     <div class="container text-center">
         <div class="page-hero-badge">
@@ -92,7 +89,6 @@
     </div>
 </section>
 
-{{-- ── Content ── --}}
 <div class="container py-5">
 
     @if(session('success'))

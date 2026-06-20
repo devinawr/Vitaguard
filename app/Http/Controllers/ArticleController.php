@@ -12,10 +12,6 @@ use Illuminate\Validation\Rule;
 
 class ArticleController extends Controller
 {
-    // ============================================================
-    // Member-facing (Blade view, hanya artikel published dan sudah waktunya tayang)
-    // ============================================================
-
     public function welcome()
     {
         $latestArticles = Article::query()
@@ -67,9 +63,7 @@ class ArticleController extends Controller
         return view('member.articles.show', compact('article'));
     }
 
-    // ============================================================
-    // JSON / CRUD
-    // ============================================================
+
 
     public function index(Request $request): JsonResponse
     {

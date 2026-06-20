@@ -33,7 +33,6 @@
             </div>
         @endif
 
-        {{-- Quick Confirm Banner --}}
         @if($booking->status === 'pending')
             <div class="card mb-3" style="border-left: 4px solid #198754;">
                 <div class="card-body d-flex align-items-center justify-content-between py-3">

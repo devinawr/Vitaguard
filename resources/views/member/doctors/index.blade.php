@@ -4,7 +4,6 @@
 
 @push('styles')
 <style>
-    /* ── Hero ── */
     .page-hero {
         padding-top: 3.5rem;
         padding-bottom: 2.5rem;
@@ -32,7 +31,6 @@
         color: #7f6a74; font-size: 1rem;
     }
 
-    /* ── Search card in hero ── */
     .hero-search-card {
         max-width: 760px; margin: 1.75rem auto 0;
         background: #fff;
@@ -64,10 +62,31 @@
         width: 1px; height: 28px; background: rgba(239,138,160,0.2); flex-shrink: 0;
     }
 
-    .hero-search-select {
+    .specialty-wrap {
+        display: flex; align-items: center; gap: 0.4rem;
+        background: #fff0f4;
+        border: 1.5px solid rgba(239,138,160,0.35);
+        border-radius: 12px;
+        padding: 0 0.85rem;
+        height: 44px;
+        flex-shrink: 0;
+        transition: border-color 0.2s;
+        cursor: pointer;
+    }
+    .specialty-wrap:focus-within {
+        border-color: var(--vg-primary);
+        box-shadow: 0 0 0 3px rgba(239,138,160,0.15);
+    }
+    .specialty-wrap i {
+        color: var(--vg-primary); font-size: 0.9rem; flex-shrink: 0; pointer-events: none;
+    }
+    .specialty-wrap select {
         border: none !important; box-shadow: none !important;
-        background: transparent !important; font-size: 0.9rem;
-        color: var(--vg-dark); min-width: 160px; flex: 0 0 auto; cursor: pointer;
+        background: transparent !important;
+        font-size: 0.88rem; font-weight: 600;
+        color: var(--vg-dark);
+        cursor: pointer; min-width: 130px;
+        padding: 0; outline: none;
     }
 
     .hero-search-btn {
@@ -82,7 +101,6 @@
         color: #fff; transform: translateY(-1px);
     }
 
-    /* ── Doctor Cards ── */
     .doc-card {
         height: 100%; border: none; border-radius: 24px;
         background: #fff;
@@ -119,7 +137,6 @@
 
 @section('content')
 
-{{-- ── Hero ── --}}
 <section class="page-hero">
     <div class="container text-center">
         <div class="page-hero-badge">
@@ -139,14 +156,17 @@
                            placeholder="Cari nama dokter atau spesialis..."
                            value="{{ request('search') }}">
                     <div class="hero-search-divider"></div>
-                    <select name="specialty" class="form-select hero-search-select">
-                        <option value="">Semua Spesialis</option>
-                        @foreach($specialties as $sp)
-                            <option value="{{ $sp }}" {{ request('specialty') == $sp ? 'selected' : '' }}>
-                                {{ $sp }}
-                            </option>
-                        @endforeach
-                    </select>
+                    <div class="specialty-wrap">
+                        <i class="bi bi-funnel-fill"></i>
+                        <select name="specialty">
+                            <option value="">Semua Spesialis</option>
+                            @foreach($specialties as $sp)
+                                <option value="{{ $sp }}" {{ request('specialty') == $sp ? 'selected' : '' }}>
+                                    {{ $sp }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
                     <button type="submit" class="hero-search-btn">
                         <i class="bi bi-search me-1"></i> Cari
                     </button>
@@ -163,7 +183,6 @@
     </div>
 </section>
 
-{{-- ── Content ── --}}
 <div class="container py-5">
 
     @if(request('search') || request('specialty'))

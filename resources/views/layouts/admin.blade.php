@@ -259,7 +259,6 @@
 
         <nav class="sidebar-nav">
             @if(auth()->user()->role === 'doctor')
-                {{-- Doctor sidebar --}}
                 <li class="nav-item">
                     <a href="{{ route('doctor.dashboard') }}" class="nav-link @if(request()->routeIs('doctor.dashboard')) active @endif">
                         <i class="bi bi-house-door-fill"></i>
@@ -276,7 +275,6 @@
                     </a>
                 </li>
             @else
-                {{-- Admin sidebar --}}
                 <li class="nav-item">
                     <a href="{{ route('admin.dashboard') }}" class="nav-link @if(request()->routeIs('admin.dashboard')) active @endif">
                         <i class="bi bi-house-door-fill"></i>

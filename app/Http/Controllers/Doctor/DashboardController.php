@@ -17,6 +17,7 @@ class DashboardController extends Controller
 
         $totalBookings     = Booking::where('doctor_id', $doctor->id)
             ->where('status', 'confirmed')->count();
+            
         $confirmedBookings = $totalBookings;
         $todayBookings     = Booking::where('doctor_id', $doctor->id)
             ->where('status', 'confirmed')
