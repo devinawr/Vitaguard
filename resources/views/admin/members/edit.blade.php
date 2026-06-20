@@ -42,15 +42,15 @@
                             <label for="gender" class="form-label">Jenis Kelamin</label>
                             <select name="gender" id="gender" class="form-select @error('gender') is-invalid @enderror">
                                 <option value="">-- Pilih --</option>
-                                <option value="Male" {{ old('gender', $member->gender) == 'Male' ? 'selected' : '' }}>Laki-laki</option>
-                                <option value="Female" {{ old('gender', $member->gender) == 'Female' ? 'selected' : '' }}>Perempuan</option>
+                                <option value="Man"   {{ old('gender', $member->gender) == 'Man'   ? 'selected' : '' }}>Laki-laki</option>
+                                <option value="Woman" {{ old('gender', $member->gender) == 'Woman' ? 'selected' : '' }}>Perempuan</option>
                             </select>
                             @error('gender')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="date_of_birth" class="form-label">Tanggal Lahir</label>
                             <input type="date" class="form-control @error('date_of_birth') is-invalid @enderror" 
-                                   id="date_of_birth" name="date_of_birth" value="{{ old('date_of_birth', $member->date_of_birth) }}">
+                                   id="date_of_birth" name="date_of_birth" value="{{ old('date_of_birth', $member->date_of_birth?->format('Y-m-d')) }}">
                             @error('date_of_birth')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
                     </div>
@@ -78,28 +78,13 @@
                             <label for="blood_type" class="form-label">Golongan Darah</label>
                             <select name="blood_type" id="blood_type" class="form-select @error('blood_type') is-invalid @enderror">
                                 <option value="">-- Pilih --</option>
-                                <option value="A" {{ old('blood_type', $member->blood_type) == 'A' ? 'selected' : '' }}>A</option>
-                                <option value="B" {{ old('blood_type', $member->blood_type) == 'B' ? 'selected' : '' }}>B</option>
-                                <option value="AB" {{ old('blood_type', $member->blood_type) == 'AB' ? 'selected' : '' }}>AB</option>
-                                <option value="O" {{ old('blood_type', $member->blood_type) == 'O' ? 'selected' : '' }}>O</option>
+                                @foreach(['A+','A-','B+','B-','AB+','AB-','O+','O-'] as $bt)
+                                    <option value="{{ $bt }}" {{ old('blood_type', $member->blood_type) == $bt ? 'selected' : '' }}>{{ $bt }}</option>
+                                @endforeach
                             </select>
                             @error('blood_type')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
                         <div class="col-md-6"></div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="allergies" class="form-label">Alergi</label>
-                        <textarea class="form-control @error('allergies') is-invalid @enderror" id="allergies" name="allergies" 
-                                  rows="2" placeholder="Masukkan informasi alergi (jika ada)">{{ old('allergies', $member->allergies) }}</textarea>
-                        @error('allergies')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="medical_history" class="form-label">Riwayat Penyakit</label>
-                        <textarea class="form-control @error('medical_history') is-invalid @enderror" id="medical_history" name="medical_history" 
-                                  rows="3" placeholder="Masukkan riwayat penyakit/kondisi medis">{{ old('medical_history', $member->medical_history) }}</textarea>
-                        @error('medical_history')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
 
                     <!-- Account Information -->

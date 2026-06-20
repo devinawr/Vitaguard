@@ -47,11 +47,9 @@ class AdminMemberController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'phone' => ['nullable', 'string', 'max:15'],
             'date_of_birth' => ['nullable', 'date', 'before:today'],
-            'gender' => ['nullable', 'in:Male,Female'],
+            'gender' => ['nullable', 'in:Man,Woman'],
             'address' => ['nullable', 'string'],
-            'blood_type' => ['nullable', 'in:A,B,AB,O'],
-            'allergies' => ['nullable', 'string'],
-            'medical_history' => ['nullable', 'string'],
+            'blood_type' => ['nullable', 'in:A+,A-,B+,B-,AB+,AB-,O+,O-'],
         ]);
 
         // Create user
@@ -64,14 +62,12 @@ class AdminMemberController extends Controller
 
         // Create member
         Member::create([
-            'user_id' => $user->id,
-            'phone' => $validated['phone'] ?? null,
+            'user_id'       => $user->id,
+            'phone'         => $validated['phone'] ?? null,
             'date_of_birth' => $validated['date_of_birth'] ?? null,
-            'gender' => $validated['gender'] ?? null,
-            'address' => $validated['address'] ?? null,
-            'blood_type' => $validated['blood_type'] ?? null,
-            'allergies' => $validated['allergies'] ?? null,
-            'medical_history' => $validated['medical_history'] ?? null,
+            'gender'        => $validated['gender'] ?? null,
+            'address'       => $validated['address'] ?? null,
+            'blood_type'    => $validated['blood_type'] ?? null,
         ]);
 
         return redirect()->route('admin.members.index')
@@ -104,11 +100,9 @@ class AdminMemberController extends Controller
             'email' => ['sometimes', 'required', 'email'],
             'phone' => ['nullable', 'string', 'max:15'],
             'date_of_birth' => ['nullable', 'date', 'before:today'],
-            'gender' => ['nullable', 'in:Male,Female'],
+            'gender' => ['nullable', 'in:Man,Woman'],
             'address' => ['nullable', 'string'],
-            'blood_type' => ['nullable', 'in:A,B,AB,O'],
-            'allergies' => ['nullable', 'string'],
-            'medical_history' => ['nullable', 'string'],
+            'blood_type' => ['nullable', 'in:A+,A-,B+,B-,AB+,AB-,O+,O-'],
         ]);
 
         // Update user data

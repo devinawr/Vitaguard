@@ -321,6 +321,51 @@
                 @enderror
             </div>
 
+            <div class="mb-3">
+                <label for="phone" class="form-label">Nomor Telepon</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                    <input id="phone" type="tel"
+                           class="form-control @error('phone') is-invalid @enderror"
+                           name="phone" value="{{ old('phone') }}"
+                           placeholder="08xxxxxxxxxx">
+                </div>
+                @error('phone')
+                    <div class="text-danger mt-1" style="font-size:0.8rem;">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-6">
+                    <label for="date_of_birth" class="form-label">Tanggal Lahir</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-calendar3"></i></span>
+                        <input id="date_of_birth" type="date"
+                               class="form-control @error('date_of_birth') is-invalid @enderror"
+                               name="date_of_birth" value="{{ old('date_of_birth') }}">
+                    </div>
+                    @error('date_of_birth')
+                        <div class="text-danger mt-1" style="font-size:0.8rem;">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="col-6">
+                    <label for="gender" class="form-label">Jenis Kelamin</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-gender-ambiguous"></i></span>
+                        <select id="gender" name="gender"
+                                class="form-select @error('gender') is-invalid @enderror"
+                                style="border-left:none;border-radius:0 12px 12px 0;">
+                            <option value="">-- Pilih --</option>
+                            <option value="Man"   {{ old('gender') == 'Man'   ? 'selected' : '' }}>Laki-laki</option>
+                            <option value="Woman" {{ old('gender') == 'Woman' ? 'selected' : '' }}>Perempuan</option>
+                        </select>
+                    </div>
+                    @error('gender')
+                        <div class="text-danger mt-1" style="font-size:0.8rem;">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+
             <div class="row g-3 mb-3">
                 <div class="col-6">
                     <label for="password" class="form-label">Password</label>
