@@ -54,9 +54,9 @@
                     <tr>
                         <td>Jenis Kelamin</td>
                         <td>
-                            @if($member->gender === 'Male')
+                            @if($member->gender === 'Man')
                                 Laki-laki
-                            @elseif($member->gender === 'Female')
+                            @elseif($member->gender === 'Woman')
                                 Perempuan
                             @else
                                 -
@@ -85,14 +85,7 @@
                             @endif
                         </td>
                     </tr>
-                    <tr>
-                        <td>Alergi</td>
-                        <td>{{ $member->allergies ?? '-' }}</td>
-                    </tr>
-                    <tr>
-                        <td>Riwayat Penyakit</td>
-                        <td>{{ $member->medical_history ?? '-' }}</td>
-                    </tr>
+
                 </table>
 
                 <h5 class="mb-3 mt-4">Data Pendaftaran</h5>

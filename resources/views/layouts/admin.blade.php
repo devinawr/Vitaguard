@@ -269,9 +269,18 @@
                 <div class="nav-section">Booking Pasien</div>
 
                 <li class="nav-item">
-                    <a href="{{ route('doctor.bookings.index') }}" class="nav-link @if(request()->routeIs('doctor.bookings.*')) active @endif">
+                    <a href="{{ route('doctor.profile') }}" class="nav-link @if(request()->routeIs('doctor.bookings.*')) active @endif">
                         <i class="bi bi-calendar-check"></i>
                         <span>Booking Masuk</span>
+                    </a>
+                </li>
+
+                <div class="nav-section">Akun</div>
+
+                <li class="nav-item">
+                    <a href="{{ route('doctor.profile') }}" class="nav-link @if(request()->routeIs('doctor.profile')) active @endif">
+                        <i class="bi bi-person-circle"></i>
+                        <span>Profil Saya</span>
                     </a>
                 </li>
             @else
@@ -350,7 +359,9 @@
                         <span style="margin-left: 0.5rem;">{{ auth()->user()->name }}</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-person"></i> Profile</a></li>
+                        @if(auth()->user()->role === 'doctor')
+                            <li><a class="dropdown-item" href="{{ route('doctor.profile') }}"><i class="bi bi-person"></i> Profile</a></li>
+                        @endif
                         <li><hr class="dropdown-divider"></li>
                         <li>
                             <a class="dropdown-item text-danger" href="{{ route('logout') }}"

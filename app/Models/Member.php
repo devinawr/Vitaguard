@@ -21,18 +21,13 @@ class Member extends Model
         'blood_type',
         'weight',
         'height',
-        'allergies',
-        'medical_history',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'date_of_birth' => 'date',
-            'weight' => 'integer',
-            'height' => 'integer',
-        ];
-    }
+    protected $casts = [
+        'date_of_birth' => 'date',
+        'weight'        => 'integer',
+        'height'        => 'integer',
+    ];
 
     public function user(): BelongsTo
     {

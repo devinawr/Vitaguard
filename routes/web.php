@@ -14,6 +14,7 @@ use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\ConsultationMessageController;
 use App\Http\Controllers\Doctor\DashboardController as DoctorDashboardController;
 use App\Http\Controllers\Doctor\DoctorBookingController;
+use App\Http\Controllers\Doctor\ProfileController as DoctorProfileController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\DoctorScheduleController;
 use App\Http\Controllers\Member\MemberBookingController;
@@ -85,6 +86,9 @@ Route::middleware(['auth', 'role:doctor'])->prefix('doctor')->name('doctor.')->g
         Route::get('/', [DoctorBookingController::class, 'index'])->name('index');
         Route::get('/{booking}', [DoctorBookingController::class, 'show'])->name('show');
     });
+
+    Route::get('/profile', [DoctorProfileController::class, 'show'])->name('profile');
+    Route::put('/profile', [DoctorProfileController::class, 'update'])->name('profile.update');
 });
 
 Route::middleware(['auth'])->group(function () {
