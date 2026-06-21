@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Doctor;
 
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
+use App\Models\Consultation;
 
 class DashboardController extends Controller
 {
@@ -30,9 +31,14 @@ class DashboardController extends Controller
             ->latest()
             ->take(5)
             ->get();
+        $recentConsultations = Consultation::with(['booking.member.user'])
+            ->whereHas('booking', fn($q) => $q->where('doctor_id', $doctor->id))
+            ->latest()
+            ->take(5)
+            ->get();
 
         return view('doctor.dashboard', compact(
-            'doctor', 'totalBookings', 'confirmedBookings', 'todayBookings', 'recentBookings'
+            'doctor', 'totalBookings', 'confirmedBookings', 'todayBookings', 'recentBookings', 'recentConsultations'
         ));
     }
 }

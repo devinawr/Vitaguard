@@ -21,7 +21,7 @@ class AdminConsultationController extends Controller
                     $q->where('name', 'like', '%' . request('search') . '%');
                 });
             })
-            ->when($request->filled('status'), function ($query) {
+            ->when($request->filled('status'), function ($query) use ($request) {
                 $query->where('status', $request->status);
             })
             ->latest()

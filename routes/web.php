@@ -17,6 +17,8 @@ use App\Http\Controllers\Doctor\DoctorBookingController;
 use App\Http\Controllers\Doctor\ProfileController as DoctorProfileController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\DoctorScheduleController;
+use App\Http\Controllers\Doctor\DoctorConsultationController;
+use App\Http\Controllers\Member\MemberConsultationController;
 use App\Http\Controllers\Member\MemberBookingController;
 use App\Http\Controllers\Member\MemberDoctorController;
 use App\Http\Controllers\MemberController;
@@ -63,6 +65,13 @@ Route::middleware(['auth', 'role:member'])->group(function () {
         Route::get('/{booking}', [MemberBookingController::class, 'show'])->name('show');
         Route::delete('/{booking}', [MemberBookingController::class, 'destroy'])->name('destroy');
     });
+
+    Route::prefix('konsultasi')->name('member.consultations.')->group(function () {
+    Route::get('/', [MemberConsultationController::class, 'index'])->name('index');
+    Route::post('/mulai/{booking}', [MemberConsultationController::class, 'start'])->name('start');
+    Route::get('/{consultation}', [MemberConsultationController::class, 'show'])->name('show');
+    Route::post('/{consultation}/pesan', [MemberConsultationController::class, 'storeMessage'])->name('messages.store');
+    });
 });
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -85,6 +94,13 @@ Route::middleware(['auth', 'role:doctor'])->prefix('doctor')->name('doctor.')->g
     Route::prefix('booking')->name('bookings.')->group(function () {
         Route::get('/', [DoctorBookingController::class, 'index'])->name('index');
         Route::get('/{booking}', [DoctorBookingController::class, 'show'])->name('show');
+    });
+
+    Route::prefix('konsultasi')->name('consultations.')->group(function () {
+    Route::get('/', [DoctorConsultationController::class, 'index'])->name('index');
+    Route::get('/{consultation}', [DoctorConsultationController::class, 'show'])->name('show');
+    Route::post('/{consultation}/pesan', [DoctorConsultationController::class, 'storeMessage'])->name('messages.store');
+    Route::put('/{consultation}/tutup', [DoctorConsultationController::class, 'close'])->name('close');
     });
 
     Route::get('/profile', [DoctorProfileController::class, 'show'])->name('profile');

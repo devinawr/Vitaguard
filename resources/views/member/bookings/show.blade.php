@@ -158,8 +158,40 @@
                     </div>
                 </div>
             </div>
-        </div>
+            
+<div class="card border-0 rounded-4 mt-4" style="box-shadow:0 4px 18px rgba(58,34,48,0.07);">
+    <div class="card-body p-4">
+        <h6 class="fw-bold mb-3" style="color:#2d2230;">Konsultasi</h6>
 
+        @if($booking->consultation)
+            @if($booking->consultation->status === 'active')
+                <span class="badge rounded-pill bg-success-subtle text-success px-3 py-1 mb-3 d-inline-block">Sedang Berlangsung</span>
+                <a href="{{ route('member.consultations.show', $booking->consultation) }}"
+                   class="btn btn-vg-primary rounded-pill btn-sm w-100">
+                    <i class="bi bi-chat-dots me-1"></i> Lanjutkan Konsultasi
+                </a>
+            @else
+                <span class="badge rounded-pill bg-secondary-subtle text-secondary px-3 py-1 mb-3 d-inline-block">Selesai</span>
+                <a href="{{ route('member.consultations.show', $booking->consultation) }}"
+                   class="btn btn-outline-vg-primary rounded-pill btn-sm w-100">
+                    <i class="bi bi-clock-history me-1"></i> Lihat Hasil Konsultasi
+                </a>
+            @endif
+        @elseif($booking->status === 'confirmed')
+            <span class="badge rounded-pill bg-warning-subtle text-warning px-3 py-1 mb-3 d-inline-block">Belum Dimulai</span>
+            <form action="{{ route('member.consultations.start', $booking) }}" method="POST">
+                @csrf
+                <button type="submit" class="btn btn-vg-primary rounded-pill btn-sm w-100">
+                    <i class="bi bi-play-circle me-1"></i> Mulai Konsultasi
+                </button>
+            </form>
+        @else
+            <span class="badge rounded-pill bg-light text-muted px-3 py-1 mb-2 d-inline-block">Belum Tersedia</span>
+            <p class="text-muted small mb-0">Konsultasi tersedia setelah booking dikonfirmasi admin.</p>
+        @endif
+    </div>
+</div>
+        </div>
     </div>
 </div>
 @endsection

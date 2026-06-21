@@ -20,9 +20,9 @@
                         <div class="col-md-4">
                             <select name="status" class="form-select">
                                 <option value="">-- Semua Status --</option>
-                                <option value="ongoing" {{ request('status') == 'ongoing' ? 'selected' : '' }}>Berlangsung</option>
-                                <option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>Selesai</option>
-                                <option value="cancelled" {{ request('status') == 'cancelled' ? 'selected' : '' }}>Dibatalkan</option>
+                                <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Berlangsung</option>
+                                <option value="closed" {{ request('status') == 'closed' ? 'selected' : '' }}>Selesai</option>
+                                <!-- <option value="cancelled" {{ request('status') == 'cancelled' ? 'selected' : '' }}>Dibatalkan</option> -->
                             </select>
                         </div>
                         <div class="col-md-3">
@@ -53,12 +53,12 @@
                                     <td>{{ $consultation->booking->member->user->name }}</td>
                                     <td>{{ $consultation->booking->doctor->user->name }}</td>
                                     <td>
-                                        @if($consultation->status === 'ongoing')
+                                        @if($consultation->status === 'active')
                                             <span class="badge bg-info">Berlangsung</span>
-                                        @elseif($consultation->status === 'completed')
+                                        @elseif($consultation->status === 'closed')
                                             <span class="badge bg-success">Selesai</span>
                                         @else
-                                            <span class="badge bg-danger">Dibatalkan</span>
+                                            <span class="badge bg-danger">Belum Dimulai</span>
                                         @endif
                                     </td>
                                     <td>{{ $consultation->messages->count() }}</td>

@@ -40,6 +40,12 @@
                             Booking Saya
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link vg-nav-link {{ request()->routeIs('member.consultations.*') ? 'active' : '' }}"
+                           href="{{ route('member.consultations.index') }}">
+                            Konsultasi
+                        </a>
+                    </li>
                 </ul>
 
                 <div class="d-flex align-items-center vg-auth-group">

@@ -275,6 +275,13 @@
                     </a>
                 </li>
 
+                <li class="nav-item">
+                <a href="{{ route('doctor.consultations.index') }}" class="nav-link @if(request()->routeIs('doctor.consultations.*')) active @endif">
+                    <i class="bi bi-chat-dots-fill"></i>
+                    <span>Konsultasi</span>
+                    </a>
+                </li>
+
                 <div class="nav-section">Akun</div>
 
                 <li class="nav-item">

@@ -109,5 +109,56 @@
         </div>
     </div>
 </div>
+<div class="card mt-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h3 class="card-title">Konsultasi Terbaru</h3>
+        <a href="{{ route('doctor.consultations.index') }}" class="btn btn-sm btn-outline-secondary">
+            Lihat Semua
+        </a>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Pasien</th>
+                        <th>Mulai</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($recentConsultations as $consultation)
+                        <tr>
+                            <td>{{ $consultation->booking->member->user->name ?? '-' }}</td>
+                            <td>{{ optional($consultation->started_at)->format('d M Y H:i') ?? '-' }}</td>
+                            <td>
+                                @if($consultation->status === 'active')
+                                    <span class="badge bg-primary">Berlangsung</span>
+                                @elseif($consultation->status === 'closed')
+                                    <span class="badge bg-info">Selesai</span>
+                                @else
+                                     <span class="badge bg-secondary">{{ ucfirst($consultation->status) }}</span>
+                                @endif
+                            </td>
+                            <td>
+                                <a href="{{ route('doctor.consultations.show', $consultation) }}" class="btn btn-sm btn-info">
+                                <i class="bi bi-eye"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="4" class="text-center text-muted py-4">
+                                <i class="bi bi-inbox" style="font-size: 2rem;"></i>
+                                <p>Belum ada konsultasi</p>
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 @endsection
