@@ -71,6 +71,7 @@ Route::middleware(['auth', 'role:member'])->group(function () {
     Route::post('/mulai/{booking}', [MemberConsultationController::class, 'start'])->name('start');
     Route::get('/{consultation}', [MemberConsultationController::class, 'show'])->name('show');
     Route::post('/{consultation}/pesan', [MemberConsultationController::class, 'storeMessage'])->name('messages.store');
+    Route::get('/{consultation}/pesan', [MemberConsultationController::class, 'fetchMessages'])->name('messages.fetch');
     });
 });
 
@@ -100,6 +101,7 @@ Route::middleware(['auth', 'role:doctor'])->prefix('doctor')->name('doctor.')->g
     Route::get('/', [DoctorConsultationController::class, 'index'])->name('index');
     Route::get('/{consultation}', [DoctorConsultationController::class, 'show'])->name('show');
     Route::post('/{consultation}/pesan', [DoctorConsultationController::class, 'storeMessage'])->name('messages.store');
+    Route::get('/{consultation}/pesan', [DoctorConsultationController::class, 'fetchMessages'])->name('messages.fetch');
     Route::put('/{consultation}/tutup', [DoctorConsultationController::class, 'close'])->name('close');
     });
 

@@ -7,17 +7,8 @@ use App\Models\Consultation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-/**
- * Modul Konsultasi Online & Riwayat Konsultasi (sisi Dokter) - bagian Dev.
- *
- * Dokter dapat:
- *  - melihat konsultasi aktif & riwayat pasien,
- *  - membalas pesan (chat),
- *  - menutup konsultasi dengan ringkasan + diagnosis.
- */
 class DoctorConsultationController extends Controller
 {
-    /** Ambil profil dokter milik user yang sedang login. */
     private function doctor()
     {
         $doctor = auth()->user()->doctor;
@@ -58,22 +49,53 @@ class DoctorConsultationController extends Controller
     }
 
     /** Balas pesan pasien. */
-    public function storeMessage(Request $request, Consultation $consultation)
+        public function storeMessage(Request $request, Consultation $consultation)
     {
         $doctor = $this->doctor();
         abort_if($consultation->booking->doctor_id !== $doctor->id, 403);
         abort_if($consultation->status !== 'active', 422, 'Konsultasi sudah ditutup.');
 
-        $validated = $request->validate([
-            'message' => ['required', 'string', 'max:5000'],
+        $validated = $request->validate(['message' => ['required', 'string', 'max:5000']]);
+
+        $message = $consultation->messages()->create([
+            'sender_id' => auth()->id(),
+            'message'   => $validated['message'],
         ]);
 
-        $consultation->messages()->create([
-            'sender_id' => auth()->id(),
-            'message' => $validated['message'],
-        ]);
+        if ($request->expectsJson()) {
+            return response()->json([
+                'id'      => $message->id,
+                'message' => $message->message,
+                'time'    => optional($message->created_at)->format('H:i'),
+            ]);
+        }
 
         return back();
+    }
+
+    public function fetchMessages(Consultation $consultation)
+    {
+        $doctor = $this->doctor();
+        abort_if($consultation->booking->doctor_id !== $doctor->id, 403);
+
+        $consultation->messages()
+            ->whereNull('read_at')
+            ->where('sender_id', '!=', auth()->id())
+            ->update(['read_at' => now()]);
+
+        $messages = $consultation->messages()
+            ->with('sender')
+            ->orderBy('id')
+            ->get()
+            ->map(fn ($m) => [
+                'id'      => $m->id,
+                'message' => $m->message,
+                'time'    => optional($m->created_at)->format('H:i'),
+                'mine'    => $m->sender_id === auth()->id(),
+                'sender'  => $m->sender->name ?? '-',
+            ]);
+
+        return response()->json(['messages' => $messages, 'status' => $consultation->status]);
     }
 
     /** Tutup konsultasi dengan ringkasan + diagnosis. */

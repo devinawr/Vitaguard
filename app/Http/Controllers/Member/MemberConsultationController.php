@@ -8,17 +8,8 @@ use App\Models\Consultation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-/**
- * Modul Konsultasi Online & Riwayat Konsultasi (sisi Member) - bagian Dev.
- *
- * Member dapat:
- *  - memulai konsultasi dari booking yang sudah dikonfirmasi,
- *  - mengirim pesan & melihat balasan dokter (chat),
- *  - melihat riwayat konsultasi beserta ringkasan/diagnosis.
- */
 class MemberConsultationController extends Controller
 {
-    /** Ambil profil member milik user yang sedang login. */
     private function member()
     {
         $member = auth()->user()->member;
@@ -27,7 +18,6 @@ class MemberConsultationController extends Controller
         return $member;
     }
 
-    /** Daftar riwayat konsultasi + booking yang siap dikonsultasikan. */
     public function index()
     {
         $member = $this->member();
@@ -49,7 +39,6 @@ class MemberConsultationController extends Controller
         return view('member.consultations.index', compact('consultations', 'startable'));
     }
 
-    /** Mulai konsultasi dari sebuah booking yang sudah dikonfirmasi. */
     public function start(Booking $booking)
     {
         $member = $this->member();
@@ -104,11 +93,44 @@ class MemberConsultationController extends Controller
             'message' => ['required', 'string', 'max:5000'],
         ]);
 
-        $consultation->messages()->create([
+        $message = $consultation->messages()->create([
             'sender_id' => auth()->id(),
-            'message' => $validated['message'],
+            'message'   => $validated['message'],
         ]);
-
+        if ($request->expectsJson()) {
+            return response()->json([
+                'id'      => $message->id,
+                'message' => $message->message,
+                'time'    => optional($message->created_at)->format('H:i'),
+            ]);
+        }
         return back();
+    }
+    public function fetchMessages(Consultation $consultation)
+    {
+        $member = $this->member();
+        abort_if($consultation->booking->member_id !== $member->id, 403);
+
+        $consultation->messages()
+            ->whereNull('read_at')
+            ->where('sender_id', '!=', auth()->id())
+            ->update(['read_at' => now()]);
+
+        $messages = $consultation->messages()
+            ->with('sender')
+            ->orderBy('id')
+            ->get()
+            ->map(fn ($m) => [
+                'id'      => $m->id,
+                'message' => $m->message,
+                'time'    => optional($m->created_at)->format('H:i'),
+                'mine'    => $m->sender_id === auth()->id(),
+                'sender'  => $m->sender->name ?? '-',
+            ]);
+
+        return response()->json([
+            'messages' => $messages,
+            'status'   => $consultation->status,
+        ]);
     }
 }
