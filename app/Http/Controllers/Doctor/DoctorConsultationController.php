@@ -66,7 +66,7 @@ class DoctorConsultationController extends Controller
             return response()->json([
                 'id'      => $message->id,
                 'message' => $message->message,
-                'time'    => optional($message->created_at)->format('H:i'),
+                'time'    => optional($message->created_at)->format('d M Y, H:i'),
             ]);
         }
 
@@ -90,7 +90,7 @@ class DoctorConsultationController extends Controller
             ->map(fn ($m) => [
                 'id'      => $m->id,
                 'message' => $m->message,
-                'time'    => optional($m->created_at)->format('H:i'),
+                'time'    => optional($m->created_at)->format('d M Y, H:i'),
                 'mine'    => $m->sender_id === auth()->id(),
                 'sender'  => $m->sender->name ?? '-',
             ]);

@@ -56,7 +56,7 @@
                             <div class="chat-meta">
                                 {{ $mine ? 'Anda' : $message->sender->name }}
                                 &middot;
-                                {{ $message->created_at->format('H:i') }}
+                                {{ $message->created_at->format('d M Y, H:i') }}
                             </div>
                         </div>
                     @empty
